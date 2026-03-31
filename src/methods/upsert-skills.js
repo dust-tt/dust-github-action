@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import AdmZip from "adm-zip";
+import Config from "../config.js";
 
 const MAX_ZIP_SIZE_MB = 5;
 const MAX_RETRIES = 3;
