@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import AdmZip from "adm-zip";
 
-const MAX_ZIP_SIZE_BYTES_MB = 5;
+const MAX_ZIP_SIZE_MB = 5;
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 1000;
 
@@ -18,9 +18,9 @@ export default async function upsertSkills(config) {
   addDirectoryToZip(zip, ".", ".");
   const zipBuffer = zip.toBuffer();
 
-  if (zipBuffer.length > MAX_ZIP_SIZE_BYTES_MB * 1024 * 1024) {
+  if (zipBuffer.length > MAX_ZIP_SIZE_MB * 1024 * 1024) {
     throw new Error(
-      `ZIP is ${(zipBuffer.length / 1024 / 1024).toFixed(1)} MB, exceeding the ${MAX_ZIP_SIZE_BYTES_MB} MB limit.`,
+      `ZIP is ${(zipBuffer.length / 1024 / 1024).toFixed(1)} MB, exceeding the ${MAX_ZIP_SIZE_MB} MB limit.`,
     );
   }
 
