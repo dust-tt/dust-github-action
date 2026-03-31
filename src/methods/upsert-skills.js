@@ -103,7 +103,7 @@ async function fetchWithRetry(url, options, core) {
       return await response.json();
     }
 
-    if (response.status < 500) {
+    if (response.status < 500 && response.status !== 429) {
       const body = await response.text();
       throw new Error(`API error (${response.status}): ${body}`);
     }
