@@ -12,13 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
+
       - name: Checkout the release tag
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
           ref: ${{ github.event.release.tag_name }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -32,12 +41,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Commit dist/ to the release tag
+      - name: Configure git
+        run: |
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+
+      - name: Commit dist/ and update tags
         run: |
           TAG="${{ github.event.release.tag_name }}"
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add --force dist/
           git commit -m "Build dist/ for ${TAG}"
