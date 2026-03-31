@@ -1,0 +1,32 @@
+{
+  "name": "dust-github-action",
+  "version": "1.0.0",
+  "description": "Interact with your Dust workspace from GitHub Actions",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "ncc build src/index.js --license licenses.txt --source-map",
+    "check": "tsc --noEmit --project ./jsconfig.json",
+    "test": "node --test test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dust-tt/dust-github-action.git"
+  },
+  "keywords": ["dust", "github", "action", "skills", "agents"],
+  "author": "Dust",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^3.0.0",
+    "adm-zip": "^0.5.16"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^24.12.0",
+    "@vercel/ncc": "^0.38.4",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

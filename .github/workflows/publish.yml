@@ -1,0 +1,65 @@
+name: Publish
+
+on:
+  release:
+    types:
+      - published
+      - edited
+
+jobs:
+  build:
+    name: Build and tag a new version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
+
+      - name: Checkout the release tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          ref: ${{ github.event.release.tag_name }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure git
+        run: |
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+
+      - name: Commit dist/ and update tags
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+
+          git add --force dist/
+          git commit -m "Build dist/ for ${TAG}"
+
+          # Update the release tag to include dist/.
+          git tag -f "${TAG}"
+          git push --force origin "refs/tags/${TAG}"
+
+          # Move the major version tag (e.g. v1) to the same commit.
+          MAJOR=$(echo "${TAG}" | grep -oE '^v[0-9]+')
+          if [ -n "$MAJOR" ]; then
+            git tag -f "${MAJOR}"
+            git push --force origin "refs/tags/${MAJOR}"
+          fi

@@ -15,14 +15,7 @@ Syncs [Agent Skills](https://agentskills.io/specification) from the repository t
     workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
     api-key: ${{ secrets.DUST_API_KEY }}
     region: EU
-    skills-dir: skills
 ```
-
-**Method inputs:**
-
-| Input | Required | Default | Description |
-|---|---|---|---|
-| `skills-dir` | no | `.` | Directory to scan for skills |
 
 **Method outputs:** `imported`, `updated` (counts).
 
@@ -66,7 +59,6 @@ jobs:
           workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
           api-key: ${{ secrets.DUST_API_KEY }}
           region: EU
-          skills-dir: skills
 ```
 
 ## Skill format
@@ -105,4 +97,4 @@ npm run check    # type-check with tsc
 npm test         # run tests
 ```
 
-The `dist/` directory is committed to the repo (required by GitHub Actions for node-based actions).
+`dist/` is gitignored and built automatically on release via the publish workflow.

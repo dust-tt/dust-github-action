@@ -1,0 +1,29 @@
+name: "Dust GitHub Action"
+author: "Dust"
+description: "Send data to your Dust workspace from GitHub Actions."
+
+inputs:
+  method:
+    description: "Action to perform (upsert-skills)"
+    required: true
+  workspace-id:
+    description: "Dust workspace ID"
+    required: true
+  api-key:
+    description: "Dust API key"
+    required: true
+  region:
+    description: "Dust workspace region (EU or US)"
+    required: true
+
+outputs:
+  json:
+    description: "Raw JSON response from the Dust API"
+  imported:
+    description: "[upsert-skills] Number of newly imported skills"
+  updated:
+    description: "[upsert-skills] Number of updated skills"
+
+runs:
+  using: "node24"
+  main: "dist/index.js"

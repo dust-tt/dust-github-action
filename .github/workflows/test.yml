@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Run action
+        uses: ./
+        with:
+          method: upsert-skills
+          workspace-id: ${{ secrets.DUST_WORKSPACE_ID }}
+          api-key: ${{ secrets.DUST_API_KEY }}
+          region: ${{ secrets.DUST_REGION }}
