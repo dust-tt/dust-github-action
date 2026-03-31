@@ -3,8 +3,8 @@
  */
 
 const API_URLS = /** @type {const} */ ({
-  EU: "https://dust.tt",
-  US: "https://us.dust.tt",
+  EU: "https://eu.dust.tt",
+  US: "https://dust.tt",
 });
 
 /**
