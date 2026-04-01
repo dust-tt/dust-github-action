@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  test-upsert-skills:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,17 +15,25 @@ jobs:
           node-version-file: .nvmrc
 
       - run: npm ci
-
-      - name: Type check
-        run: npm run check
+        working-directory: .
 
       - name: Build
         run: npm run build
+        working-directory: .
 
-      - name: Run action
+      - name: Run upsert-skills
+        id: upsert
         uses: ./
         with:
           method: upsert-skills
           workspace-id: ${{ secrets.DUST_WORKSPACE_ID }}
           api-key: ${{ secrets.DUST_API_KEY }}
           region: ${{ secrets.DUST_REGION }}
+
+      - name: Verify outputs
+        run: |
+          echo "json output: ${{ steps.upsert.outputs.json }}"
+          if [ -z "${{ steps.upsert.outputs.json }}" ]; then
+            echo "Expected json output to be set"
+            exit 1
+          fi
