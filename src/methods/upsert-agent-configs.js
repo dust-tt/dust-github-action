@@ -125,17 +125,17 @@ export default async function upsertAgentConfigs(config) {
     }
 
     try {
-      const existingSId = await findAgentByHandle(
+      const existingId = await findAgentByHandle(
         baseUrl,
         apiKey,
         handle,
         core
       );
 
-      if (existingSId) {
-        core.info(`  Updating existing agent "${handle}" (${existingSId})...`);
+      if (existingId) {
+        core.info(`  Updating existing agent "${handle}" (${existingId})...`);
         await fetchWithRetry(
-          `${baseUrl}/${existingSId}`,
+          `${baseUrl}/${existingId}`,
           { method: "PATCH", headers, body: JSON.stringify(parsed) },
           core
         );
