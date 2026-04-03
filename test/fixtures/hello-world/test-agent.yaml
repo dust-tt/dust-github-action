@@ -2,6 +2,7 @@ agent:
   avatar_url: https://dust.tt/static/emojis/bg-yellow-200/memo/1f4dd
   description: Test Agent via CI
   handle: TestCIAgent
+  max_steps_per_run: 64
   scope: visible
   visualization_enabled: false
 editors:
@@ -18,3 +19,4 @@ skills:
   - name: Create Frames
     sId: frames
 tags: [ ]
+toolset: [ ]
