@@ -28,9 +28,9 @@ Upserts agent configurations from YAML files in the repository to Dust. Searches
     workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
     api-key: ${{ secrets.DUST_API_KEY }}
     region: EU
-    agent-configs:
-      - configs/agent-*.yaml
-      - agent-*.yml
+    agent-configs: |
+      configs/agent-*.yaml
+      agent-*.yml
 ```
 
 The `agent-configs` input accepts a list of glob patterns matching YAML agent configuration files.

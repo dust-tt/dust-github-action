@@ -63,8 +63,8 @@ jobs:
           workspace-id: ${{ secrets.DUST_WORKSPACE_ID }}
           api-key: ${{ secrets.DUST_API_KEY }}
           region: ${{ secrets.DUST_REGION }}
-          agent-configs:
-            - test/fixtures/hello-world/*.yaml
+          agent-configs: |
+            test/fixtures/hello-world/*.yaml
 
       - name: Verify outputs
         run: |
