@@ -1,0 +1,20 @@
+agent:
+  avatar_url: https://dust.tt/static/emojis/bg-yellow-200/memo/1f4dd
+  description: Test Agent via CI
+  handle: TestCIAgent
+  scope: visible
+  visualization_enabled: false
+editors:
+  - email: jules@dust.tt
+    full_name: Jules Belveze
+    user_id: yzjnC7yZUD
+generation_settings:
+  model_id: claude-4-sonnet-20250514
+  provider_id: anthropic
+  reasoning_effort: light
+  temperature: 0.3
+instructions: You are a test assistant
+skills:
+  - name: Create Frames
+    sId: frames
+tags: [ ]

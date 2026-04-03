@@ -37,3 +37,39 @@ jobs:
             echo "Expected json output to be set"
             exit 1
           fi
+
+  test-upsert-agent-configs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version-file: .nvmrc
+
+      - run: npm ci
+        working-directory: .
+
+      - name: Build
+        run: npm run build
+        working-directory: .
+
+      - name: Run upsert-agent-configs
+        id: upsert
+        uses: ./
+        with:
+          method: upsert-agent-configs
+          workspace-id: ${{ secrets.DUST_WORKSPACE_ID }}
+          api-key: ${{ secrets.DUST_API_KEY }}
+          region: ${{ secrets.DUST_REGION }}
+          agent-configs:
+            - test/fixtures/hello-world/*.yaml
+
+      - name: Verify outputs
+        run: |
+          echo "json output: ${{ steps.upsert.outputs.json }}"
+          if [ -z "${{ steps.upsert.outputs.json }}" ]; then
+            echo "Expected json output to be set"
+            exit 1
+          fi
