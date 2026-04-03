@@ -4,7 +4,7 @@ description: "Send data to your Dust workspace from GitHub Actions."
 
 inputs:
   method:
-    description: "Action to perform (upsert-skills)"
+    description: "Action to perform (upsert-skills, upsert-agent-configs)"
     required: true
   workspace-id:
     description: "Dust workspace ID"
@@ -15,14 +15,17 @@ inputs:
   region:
     description: "Dust workspace region (EU or US)"
     required: true
+  agent-configs:
+    description: "[upsert-agent-configs] List of glob patterns matching YAML agent configuration files"
+    required: false
 
 outputs:
   json:
     description: "Raw JSON response from the Dust API"
   imported:
-    description: "[upsert-skills] Number of newly imported skills"
+    description: "Number of newly imported items"
   updated:
-    description: "[upsert-skills] Number of updated skills"
+    description: "Number of updated items"
 
 runs:
   using: "node24"

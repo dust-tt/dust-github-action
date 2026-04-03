@@ -9,10 +9,11 @@ const API_URLS = /** @type {const} */ ({
 
 /**
  * @typedef Inputs
- * @property {string} method - The action method to run (e.g. "upsert-skills").
+ * @property {string} method - The action method to run (e.g. "upsert-skills", "upsert-agent-configs").
  * @property {string} workspaceId - The Dust workspace sId.
  * @property {string} apiKey - The Dust API key.
  * @property {string} apiUrl - The resolved Dust API base URL.
+ * @property {string} agentConfigs - Comma-separated list of file/folder paths for agent configs.
  */
 
 export default class Config {
@@ -38,6 +39,7 @@ export default class Config {
       workspaceId: core.getInput("workspace-id", { required: true }),
       apiKey: core.getInput("api-key", { required: true }),
       apiUrl: API_URLS[region],
+      agentConfigs: core.getInput("agent-configs"),
     };
 
     core.setSecret(this.inputs.apiKey);

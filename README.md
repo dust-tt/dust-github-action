@@ -17,7 +17,25 @@ Syncs [Agent Skills](https://agentskills.io/specification) from the repository t
     region: EU
 ```
 
-**Method outputs:** `imported`, `updated` (counts).
+### `upsert-agent-configs`
+
+Upserts agent configurations from YAML files in the repository to Dust. Searches for existing agents by handle name — updates them if found, creates new ones otherwise.
+
+```yaml
+- uses: dust-tt/dust-github-action@v1
+  with:
+    method: upsert-agent-configs
+    workspace-id: ${{ vars.DUST_WORKSPACE_ID }}
+    api-key: ${{ secrets.DUST_API_KEY }}
+    region: EU
+    agent-configs:
+      - configs/agent-*.yaml
+      - agent-*.yml
+```
+
+The `agent-configs` input accepts a list of glob patterns matching YAML agent configuration files.
+
+Each YAML file must follow the [Dust agent configuration schema](https://docs.dust.tt) with at minimum an `agent.handle` field.
 
 ## Common inputs
 
@@ -27,6 +45,7 @@ Syncs [Agent Skills](https://agentskills.io/specification) from the repository t
 | `workspace-id` | yes | Dust workspace sId |
 | `api-key` | yes | Dust API key |
 | `region` | yes | Workspace region (`EU` or `US`) |
+| `agent-configs` | no | [upsert-agent-configs] List of glob patterns for YAML agent config files |
 
 ## Common outputs
 
